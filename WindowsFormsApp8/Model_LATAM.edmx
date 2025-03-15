@@ -1,0 +1,607 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BD_LATAMModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AsientoAvion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdAvion" Type="int" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="10" />
+          <Property Name="Activo" Type="bit" />
+        </EntityType>
+        <EntityType Name="Avion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Modelo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Matricula" Type="nvarchar" MaxLength="50" />
+          <Property Name="Activo" Type="bit" />
+        </EntityType>
+        <EntityType Name="Ciudad">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+          <Property Name="Activo" Type="bit" />
+        </EntityType>
+        <EntityType Name="Pasaje">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdVuelo" Type="int" />
+          <Property Name="IdPasajero" Type="int" />
+          <Property Name="IdAsientoAvion" Type="int" />
+          <Property Name="Estado" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Pasajero">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombres" Type="nvarchar" MaxLength="50" />
+          <Property Name="ApellidoPaterno" Type="nvarchar" MaxLength="50" />
+          <Property Name="ApellidoMaterno" Type="nvarchar" MaxLength="50" />
+          <Property Name="Dni" Type="nvarchar" MaxLength="10" />
+          <Property Name="Activo" Type="bit" />
+        </EntityType>
+        <EntityType Name="Tarifa">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCiudadOrigen" Type="int" />
+          <Property Name="IdCiudadDestino" Type="int" />
+          <Property Name="IdTipoServicio" Type="int" />
+          <Property Name="Precio" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Activo" Type="bit" />
+        </EntityType>
+        <EntityType Name="TipoServicio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+          <Property Name="Activo" Type="bit" />
+        </EntityType>
+        <EntityType Name="Vuelo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdTarifa" Type="int" />
+          <Property Name="Fecha" Type="nvarchar" MaxLength="10" />
+          <Property Name="Hora" Type="nvarchar" MaxLength="10" />
+          <Property Name="IdAvion" Type="int" />
+          <Property Name="Activo" Type="bit" />
+        </EntityType>
+        <Association Name="FK_AsientoAvion_Avion">
+          <End Role="Avion" Type="Self.Avion" Multiplicity="0..1" />
+          <End Role="AsientoAvion" Type="Self.AsientoAvion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Avion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AsientoAvion">
+              <PropertyRef Name="IdAvion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pasaje_AsientoAvion">
+          <End Role="AsientoAvion" Type="Self.AsientoAvion" Multiplicity="0..1" />
+          <End Role="Pasaje" Type="Self.Pasaje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AsientoAvion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pasaje">
+              <PropertyRef Name="IdAsientoAvion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pasaje_Pasajero1">
+          <End Role="Pasajero" Type="Self.Pasajero" Multiplicity="0..1" />
+          <End Role="Pasaje" Type="Self.Pasaje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pasajero">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pasaje">
+              <PropertyRef Name="IdPasajero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pasaje_Vuelo">
+          <End Role="Vuelo" Type="Self.Vuelo" Multiplicity="0..1" />
+          <End Role="Pasaje" Type="Self.Pasaje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vuelo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pasaje">
+              <PropertyRef Name="IdVuelo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tarifa_Ciudad">
+          <End Role="Ciudad" Type="Self.Ciudad" Multiplicity="0..1" />
+          <End Role="Tarifa" Type="Self.Tarifa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ciudad">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tarifa">
+              <PropertyRef Name="IdCiudadOrigen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tarifa_Ciudad1">
+          <End Role="Ciudad" Type="Self.Ciudad" Multiplicity="0..1" />
+          <End Role="Tarifa" Type="Self.Tarifa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ciudad">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tarifa">
+              <PropertyRef Name="IdCiudadDestino" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tarifa_TipoServicio">
+          <End Role="TipoServicio" Type="Self.TipoServicio" Multiplicity="0..1" />
+          <End Role="Tarifa" Type="Self.Tarifa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoServicio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tarifa">
+              <PropertyRef Name="IdTipoServicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vuelo_Avion">
+          <End Role="Avion" Type="Self.Avion" Multiplicity="0..1" />
+          <End Role="Vuelo" Type="Self.Vuelo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Avion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vuelo">
+              <PropertyRef Name="IdAvion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vuelo_Tarifa">
+          <End Role="Tarifa" Type="Self.Tarifa" Multiplicity="0..1" />
+          <End Role="Vuelo" Type="Self.Vuelo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tarifa">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vuelo">
+              <PropertyRef Name="IdTarifa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BD_LATAMModelStoreContainer">
+          <EntitySet Name="AsientoAvion" EntityType="Self.AsientoAvion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Avion" EntityType="Self.Avion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ciudad" EntityType="Self.Ciudad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pasaje" EntityType="Self.Pasaje" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pasajero" EntityType="Self.Pasajero" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tarifa" EntityType="Self.Tarifa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoServicio" EntityType="Self.TipoServicio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vuelo" EntityType="Self.Vuelo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AsientoAvion_Avion" Association="Self.FK_AsientoAvion_Avion">
+            <End Role="Avion" EntitySet="Avion" />
+            <End Role="AsientoAvion" EntitySet="AsientoAvion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pasaje_AsientoAvion" Association="Self.FK_Pasaje_AsientoAvion">
+            <End Role="AsientoAvion" EntitySet="AsientoAvion" />
+            <End Role="Pasaje" EntitySet="Pasaje" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pasaje_Pasajero1" Association="Self.FK_Pasaje_Pasajero1">
+            <End Role="Pasajero" EntitySet="Pasajero" />
+            <End Role="Pasaje" EntitySet="Pasaje" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pasaje_Vuelo" Association="Self.FK_Pasaje_Vuelo">
+            <End Role="Vuelo" EntitySet="Vuelo" />
+            <End Role="Pasaje" EntitySet="Pasaje" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tarifa_Ciudad" Association="Self.FK_Tarifa_Ciudad">
+            <End Role="Ciudad" EntitySet="Ciudad" />
+            <End Role="Tarifa" EntitySet="Tarifa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tarifa_Ciudad1" Association="Self.FK_Tarifa_Ciudad1">
+            <End Role="Ciudad" EntitySet="Ciudad" />
+            <End Role="Tarifa" EntitySet="Tarifa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tarifa_TipoServicio" Association="Self.FK_Tarifa_TipoServicio">
+            <End Role="TipoServicio" EntitySet="TipoServicio" />
+            <End Role="Tarifa" EntitySet="Tarifa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vuelo_Avion" Association="Self.FK_Vuelo_Avion">
+            <End Role="Avion" EntitySet="Avion" />
+            <End Role="Vuelo" EntitySet="Vuelo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vuelo_Tarifa" Association="Self.FK_Vuelo_Tarifa">
+            <End Role="Tarifa" EntitySet="Tarifa" />
+            <End Role="Vuelo" EntitySet="Vuelo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BD_LATAMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AsientoAvion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdAvion" Type="Int32" />
+          <Property Name="Nombre" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Activo" Type="Boolean" />
+          <NavigationProperty Name="Avion" Relationship="Self.FK_AsientoAvion_Avion" FromRole="AsientoAvion" ToRole="Avion" />
+          <NavigationProperty Name="Pasaje" Relationship="Self.FK_Pasaje_AsientoAvion" FromRole="AsientoAvion" ToRole="Pasaje" />
+        </EntityType>
+        <EntityType Name="Avion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Matricula" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Activo" Type="Boolean" />
+          <NavigationProperty Name="AsientoAvion" Relationship="Self.FK_AsientoAvion_Avion" FromRole="Avion" ToRole="AsientoAvion" />
+          <NavigationProperty Name="Vuelo" Relationship="Self.FK_Vuelo_Avion" FromRole="Avion" ToRole="Vuelo" />
+        </EntityType>
+        <EntityType Name="Ciudad">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Activo" Type="Boolean" />
+          <NavigationProperty Name="Tarifa" Relationship="Self.FK_Tarifa_Ciudad" FromRole="Ciudad" ToRole="Tarifa" />
+          <NavigationProperty Name="Tarifa1" Relationship="Self.FK_Tarifa_Ciudad1" FromRole="Ciudad" ToRole="Tarifa" />
+        </EntityType>
+        <EntityType Name="Pasaje">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdVuelo" Type="Int32" />
+          <Property Name="IdPasajero" Type="Int32" />
+          <Property Name="IdAsientoAvion" Type="Int32" />
+          <Property Name="Estado" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AsientoAvion" Relationship="Self.FK_Pasaje_AsientoAvion" FromRole="Pasaje" ToRole="AsientoAvion" />
+          <NavigationProperty Name="Pasajero" Relationship="Self.FK_Pasaje_Pasajero1" FromRole="Pasaje" ToRole="Pasajero" />
+          <NavigationProperty Name="Vuelo" Relationship="Self.FK_Pasaje_Vuelo" FromRole="Pasaje" ToRole="Vuelo" />
+        </EntityType>
+        <EntityType Name="Pasajero">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombres" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Dni" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Activo" Type="Boolean" />
+          <NavigationProperty Name="Pasaje" Relationship="Self.FK_Pasaje_Pasajero1" FromRole="Pasajero" ToRole="Pasaje" />
+        </EntityType>
+        <EntityType Name="Tarifa">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCiudadOrigen" Type="Int32" />
+          <Property Name="IdCiudadDestino" Type="Int32" />
+          <Property Name="IdTipoServicio" Type="Int32" />
+          <Property Name="Precio" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Activo" Type="Boolean" />
+          <NavigationProperty Name="Ciudad" Relationship="Self.FK_Tarifa_Ciudad" FromRole="Tarifa" ToRole="Ciudad" />
+          <NavigationProperty Name="Ciudad1" Relationship="Self.FK_Tarifa_Ciudad1" FromRole="Tarifa" ToRole="Ciudad" />
+          <NavigationProperty Name="TipoServicio" Relationship="Self.FK_Tarifa_TipoServicio" FromRole="Tarifa" ToRole="TipoServicio" />
+          <NavigationProperty Name="Vuelo" Relationship="Self.FK_Vuelo_Tarifa" FromRole="Tarifa" ToRole="Vuelo" />
+        </EntityType>
+        <EntityType Name="TipoServicio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Activo" Type="Boolean" />
+          <NavigationProperty Name="Tarifa" Relationship="Self.FK_Tarifa_TipoServicio" FromRole="TipoServicio" ToRole="Tarifa" />
+        </EntityType>
+        <EntityType Name="Vuelo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdTarifa" Type="Int32" />
+          <Property Name="Fecha" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Hora" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IdAvion" Type="Int32" />
+          <Property Name="Activo" Type="Boolean" />
+          <NavigationProperty Name="Avion" Relationship="Self.FK_Vuelo_Avion" FromRole="Vuelo" ToRole="Avion" />
+          <NavigationProperty Name="Pasaje" Relationship="Self.FK_Pasaje_Vuelo" FromRole="Vuelo" ToRole="Pasaje" />
+          <NavigationProperty Name="Tarifa" Relationship="Self.FK_Vuelo_Tarifa" FromRole="Vuelo" ToRole="Tarifa" />
+        </EntityType>
+        <Association Name="FK_AsientoAvion_Avion">
+          <End Role="Avion" Type="Self.Avion" Multiplicity="0..1" />
+          <End Role="AsientoAvion" Type="Self.AsientoAvion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Avion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AsientoAvion">
+              <PropertyRef Name="IdAvion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pasaje_AsientoAvion">
+          <End Role="AsientoAvion" Type="Self.AsientoAvion" Multiplicity="0..1" />
+          <End Role="Pasaje" Type="Self.Pasaje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AsientoAvion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pasaje">
+              <PropertyRef Name="IdAsientoAvion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vuelo_Avion">
+          <End Role="Avion" Type="Self.Avion" Multiplicity="0..1" />
+          <End Role="Vuelo" Type="Self.Vuelo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Avion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vuelo">
+              <PropertyRef Name="IdAvion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tarifa_Ciudad">
+          <End Role="Ciudad" Type="Self.Ciudad" Multiplicity="0..1" />
+          <End Role="Tarifa" Type="Self.Tarifa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ciudad">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tarifa">
+              <PropertyRef Name="IdCiudadOrigen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tarifa_Ciudad1">
+          <End Role="Ciudad" Type="Self.Ciudad" Multiplicity="0..1" />
+          <End Role="Tarifa" Type="Self.Tarifa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ciudad">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tarifa">
+              <PropertyRef Name="IdCiudadDestino" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pasaje_Pasajero1">
+          <End Role="Pasajero" Type="Self.Pasajero" Multiplicity="0..1" />
+          <End Role="Pasaje" Type="Self.Pasaje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pasajero">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pasaje">
+              <PropertyRef Name="IdPasajero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pasaje_Vuelo">
+          <End Role="Vuelo" Type="Self.Vuelo" Multiplicity="0..1" />
+          <End Role="Pasaje" Type="Self.Pasaje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vuelo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pasaje">
+              <PropertyRef Name="IdVuelo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tarifa_TipoServicio">
+          <End Role="TipoServicio" Type="Self.TipoServicio" Multiplicity="0..1" />
+          <End Role="Tarifa" Type="Self.Tarifa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoServicio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tarifa">
+              <PropertyRef Name="IdTipoServicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vuelo_Tarifa">
+          <End Role="Tarifa" Type="Self.Tarifa" Multiplicity="0..1" />
+          <End Role="Vuelo" Type="Self.Vuelo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tarifa">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vuelo">
+              <PropertyRef Name="IdTarifa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BD_LATAMEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AsientoAvion" EntityType="Self.AsientoAvion" />
+          <EntitySet Name="Avion" EntityType="Self.Avion" />
+          <EntitySet Name="Ciudad" EntityType="Self.Ciudad" />
+          <EntitySet Name="Pasaje" EntityType="Self.Pasaje" />
+          <EntitySet Name="Pasajero" EntityType="Self.Pasajero" />
+          <EntitySet Name="Tarifa" EntityType="Self.Tarifa" />
+          <EntitySet Name="TipoServicio" EntityType="Self.TipoServicio" />
+          <EntitySet Name="Vuelo" EntityType="Self.Vuelo" />
+          <AssociationSet Name="FK_AsientoAvion_Avion" Association="Self.FK_AsientoAvion_Avion">
+            <End Role="Avion" EntitySet="Avion" />
+            <End Role="AsientoAvion" EntitySet="AsientoAvion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pasaje_AsientoAvion" Association="Self.FK_Pasaje_AsientoAvion">
+            <End Role="AsientoAvion" EntitySet="AsientoAvion" />
+            <End Role="Pasaje" EntitySet="Pasaje" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vuelo_Avion" Association="Self.FK_Vuelo_Avion">
+            <End Role="Avion" EntitySet="Avion" />
+            <End Role="Vuelo" EntitySet="Vuelo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tarifa_Ciudad" Association="Self.FK_Tarifa_Ciudad">
+            <End Role="Ciudad" EntitySet="Ciudad" />
+            <End Role="Tarifa" EntitySet="Tarifa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tarifa_Ciudad1" Association="Self.FK_Tarifa_Ciudad1">
+            <End Role="Ciudad" EntitySet="Ciudad" />
+            <End Role="Tarifa" EntitySet="Tarifa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pasaje_Pasajero1" Association="Self.FK_Pasaje_Pasajero1">
+            <End Role="Pasajero" EntitySet="Pasajero" />
+            <End Role="Pasaje" EntitySet="Pasaje" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pasaje_Vuelo" Association="Self.FK_Pasaje_Vuelo">
+            <End Role="Vuelo" EntitySet="Vuelo" />
+            <End Role="Pasaje" EntitySet="Pasaje" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tarifa_TipoServicio" Association="Self.FK_Tarifa_TipoServicio">
+            <End Role="TipoServicio" EntitySet="TipoServicio" />
+            <End Role="Tarifa" EntitySet="Tarifa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vuelo_Tarifa" Association="Self.FK_Vuelo_Tarifa">
+            <End Role="Tarifa" EntitySet="Tarifa" />
+            <End Role="Vuelo" EntitySet="Vuelo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BD_LATAMModelStoreContainer" CdmEntityContainer="BD_LATAMEntities">
+          <EntitySetMapping Name="AsientoAvion">
+            <EntityTypeMapping TypeName="BD_LATAMModel.AsientoAvion">
+              <MappingFragment StoreEntitySet="AsientoAvion">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdAvion" ColumnName="IdAvion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Avion">
+            <EntityTypeMapping TypeName="BD_LATAMModel.Avion">
+              <MappingFragment StoreEntitySet="Avion">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ciudad">
+            <EntityTypeMapping TypeName="BD_LATAMModel.Ciudad">
+              <MappingFragment StoreEntitySet="Ciudad">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pasaje">
+            <EntityTypeMapping TypeName="BD_LATAMModel.Pasaje">
+              <MappingFragment StoreEntitySet="Pasaje">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdVuelo" ColumnName="IdVuelo" />
+                <ScalarProperty Name="IdPasajero" ColumnName="IdPasajero" />
+                <ScalarProperty Name="IdAsientoAvion" ColumnName="IdAsientoAvion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pasajero">
+            <EntityTypeMapping TypeName="BD_LATAMModel.Pasajero">
+              <MappingFragment StoreEntitySet="Pasajero">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="Dni" ColumnName="Dni" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tarifa">
+            <EntityTypeMapping TypeName="BD_LATAMModel.Tarifa">
+              <MappingFragment StoreEntitySet="Tarifa">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdCiudadOrigen" ColumnName="IdCiudadOrigen" />
+                <ScalarProperty Name="IdCiudadDestino" ColumnName="IdCiudadDestino" />
+                <ScalarProperty Name="IdTipoServicio" ColumnName="IdTipoServicio" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoServicio">
+            <EntityTypeMapping TypeName="BD_LATAMModel.TipoServicio">
+              <MappingFragment StoreEntitySet="TipoServicio">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vuelo">
+            <EntityTypeMapping TypeName="BD_LATAMModel.Vuelo">
+              <MappingFragment StoreEntitySet="Vuelo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdTarifa" ColumnName="IdTarifa" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="IdAvion" ColumnName="IdAvion" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

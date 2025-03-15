@@ -1,0 +1,15 @@
+C:\Users\IDAT\source\repos\WindowsFormsApp8\WindowsFormsApp8\obj\Debug\WindowsFormsApp8.csprojAssemblyReference.cache
+C:\Users\IDAT\source\repos\WindowsFormsApp8\WindowsFormsApp8\obj\Debug\WindowsFormsApp8.frmPasajeros.resources
+C:\Users\IDAT\source\repos\WindowsFormsApp8\WindowsFormsApp8\obj\Debug\WindowsFormsApp8.Properties.Resources.resources
+C:\Users\IDAT\source\repos\WindowsFormsApp8\WindowsFormsApp8\obj\Debug\WindowsFormsApp8.csproj.GenerateResource.cache
+C:\Users\IDAT\source\repos\WindowsFormsApp8\WindowsFormsApp8\obj\Debug\WindowsFormsApp8.csproj.CoreCompileInputs.cache
+C:\Users\IDAT\source\repos\WindowsFormsApp8\WindowsFormsApp8\bin\Debug\WindowsFormsApp8.exe.config
+C:\Users\IDAT\source\repos\WindowsFormsApp8\WindowsFormsApp8\bin\Debug\WindowsFormsApp8.exe
+C:\Users\IDAT\source\repos\WindowsFormsApp8\WindowsFormsApp8\bin\Debug\WindowsFormsApp8.pdb
+C:\Users\IDAT\source\repos\WindowsFormsApp8\WindowsFormsApp8\bin\Debug\EntityFramework.dll
+C:\Users\IDAT\source\repos\WindowsFormsApp8\WindowsFormsApp8\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\IDAT\source\repos\WindowsFormsApp8\WindowsFormsApp8\bin\Debug\EntityFramework.xml
+C:\Users\IDAT\source\repos\WindowsFormsApp8\WindowsFormsApp8\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\IDAT\source\repos\WindowsFormsApp8\WindowsFormsApp8\obj\Debug\WindowsFormsApp8.csproj.CopyComplete
+C:\Users\IDAT\source\repos\WindowsFormsApp8\WindowsFormsApp8\obj\Debug\WindowsFormsApp8.exe
+C:\Users\IDAT\source\repos\WindowsFormsApp8\WindowsFormsApp8\obj\Debug\WindowsFormsApp8.pdb
