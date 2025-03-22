@@ -133,9 +133,45 @@ namespace WindowsFormsApp8
             }
         }
 
+        public List<PasajeroDto> ObtenerPasajeros(string nombre)
+        {
+            try
+            {
+                using (BD_LATAMEntities bd = new BD_LATAMEntities())
+                {
+                    var consulta = (from n in bd.Pasajero
+                                    where n.Nombres.Contains(nombre) // Filtra por nombre
+                                    select new PasajeroDto
+                                    {
+                                        Id = n.Id,
+                                        Nombres = n.Nombres,
+                                        ApellidoPaterno = n.ApellidoPaterno,
+                                        ApellidoMaterno = n.ApellidoMaterno,
+                                        Dni = n.Dni,
+                                        Activo = n.Activo
+                                    }).ToList();
+                    return consulta;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
         private void dgvPasajeros_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            string nombreBuscado = txtNombre.Text.Trim();
+            List<PasajeroDto> pasajeros = ObtenerPasajeros(nombreBuscado);
+
+            // Cargar la lista 
+            dgvPasajeros.DataSource = pasajeros;
         }
     }
 }
